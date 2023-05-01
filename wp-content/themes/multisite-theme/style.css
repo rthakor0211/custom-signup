@@ -970,11 +970,11 @@ textarea {
 
 
 .custom-section {
-    max-width: 850px;
+    max-width: 650px;
     margin: 70px auto;
 }
-form#signup-form label, form#login-form label{
-    width: 140px;
+.input-block label{
+    width: 160px;
     display: inline-block;
 }
 
@@ -998,3 +998,27 @@ form#signup-form input, form#login-form input {
 	width: auto !important; 
 }
 a.login-btn {padding: 10px;line-height: normal;background-color: #002ba5;color: #fff;margin-top: 20px;display: inline-block;text-decoration: none;}
+
+
+.main-navigation ul.nav-menu {
+    gap: 20px;
+    justify-content: center;
+}
+
+.main-navigation ul.nav-menu a {
+    color: #000;
+    font-size: 18px;
+    border: 1px solid #eee;
+    padding: 8px 18px;
+    background-color: #eee;
+    transition: 1s;
+}
+
+.main-navigation ul.nav-menu a:hover {
+    background-color: #000;
+    color: #fff;
+}
+.main-navigation ul.nav-menu .current-menu-item a {
+    background-color: #4169e1;
+    color: #fff;
+}

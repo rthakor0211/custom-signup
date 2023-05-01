@@ -50,40 +50,45 @@ get_header();
 
 if (isset($_POST['submit'])) {
 
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $company = $_POST['company_name'];
+	    $username = $_POST['username'];
+	    $email = $_POST['email'];
+	    $password = $_POST['password'];
+	    $company = $_POST['company_name'];
+
+	    if (username_exists( $username )) {
+	    	echo '<div class="success-msg">User already created with </div>'.$username;
+	    } elseif ( username_exists( $username ) ) {
+	    	echo '<div class="success-msg">Email already registered with </div>'.$username;
+	    } else {
+
+		    // Use wp_create_user() function to create a new user account
+		    $user_id = wp_create_user($username, $password, $email);
+
+		    // Add the user meta data for the company name field
+		    update_user_meta($user_id, 'company_name', $company);
 
 
-    if ( username_exists( $username ) )
-		echo "User created for ".$email;
-	else
-	
-    // Use wp_create_user() function to create a new user account
-    $user_id = wp_create_user($username, $password, $email);
+		    // Generate OTP and store it in user meta
+		    $otp = rand(1000,9999);
+		    update_user_meta($user_id, 'email_otp', $otp);
+		    update_user_meta($user_id, 'email_otp_status', 'false');
+		    
+		    // Send OTP to user via email
+		    $to = $email;
+		    $subject = 'Email verification OTP';
+		    $message = 'Your OTP is '.$otp;
+		    $headers = 'From: ' . get_bloginfo('name') . ' <' . get_bloginfo('admin_email') . '>';
+		    wp_mail($to, $subject, $message, $headers);	
 
-    // Add the user meta data for the company name field
-    update_user_meta($user_id, 'company_name', $company);
+		    // Redirect to OTP verification page
+		    $redirect_to = home_url('/verify-email-otp/?email='.$email);
+		    wp_redirect($redirect_to);
+		    exit;   	    	
+
+	    }
 
 
-    // Generate OTP and store it in user meta
-    $otp = rand(1000,9999);
-    update_user_meta($user_id, 'email_otp', $otp);
-    update_user_meta($user_id, 'email_otp_status', 'false');
-    
-    // Send OTP to user via email
-    $to = $email;
-    $subject = 'Email verification OTP';
-    $message = 'Your OTP is '.$otp;
-    $headers = 'From: ' . get_bloginfo('name') . ' <' . get_bloginfo('admin_email') . '>';
-    wp_mail($to, $subject, $message, $headers);	
-
-    // Redirect to OTP verification page
-    $redirect_to = home_url('/verify-email-otp/?email='.$email);
-    wp_redirect($redirect_to);
-    
-    //exit;    
+    }
 
 
 	// Generate a unique verification link with a token
@@ -103,14 +108,5 @@ if (isset($_POST['submit'])) {
 	//wp_mail($to, $subject, $message, $headers);    
 
 
-
-}
-
-
-
-
-?>
-
-<?php
 get_sidebar();
 get_footer();

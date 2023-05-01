@@ -14,17 +14,35 @@
  Template Name: Verify Email OTP Page
  */
 
+  
+ob_start();
 get_header();
+
+if ($_GET['email']) {
+    $email = $_GET['email'];
+
+}
+
+
 
 ?>
 
 
     <main id="primary" class="site-main custom-section">
-
+        <h1>Verify Otp</h1>
         <form method="post">
-            <label for="otp">Enter OTP:</label>
-            <input type="text" name="otp" id="otp" required>
-            <input type="submit" name="otp_submit" value="Verify OTP">
+            <div class="input-block">
+                <label for="otp">Email :</label>
+                <input type="email" name="email" value="<?php echo $email;?>" required>
+            </div>
+            <div class="input-block">
+                <label for="otp">Enter OTP:</label>
+                <input type="text" name="otp" id="otp" required>
+            </div>
+            
+            <div class="input-block">
+                <input type="submit" name="otp_submit" value="Verify OTP">
+            </div>
         </form>
 
     </main>
@@ -34,7 +52,7 @@ get_header();
 
 
 if( isset($_GET['email']) && isset($_POST['otp_submit']) ) {
-    $email = $_GET['email'];
+    
     $otp = $_POST['otp'];
     $user = get_user_by('email', $email);
     $user_id = $user->ID;
@@ -43,9 +61,10 @@ if( isset($_GET['email']) && isset($_POST['otp_submit']) ) {
     if ( $stored_otp == $otp ) {
         update_user_meta($user_id, 'email_otp_status', 'true');
         // OTP verified, redirect to login page
-        // $redirect_to = home_url('signin');
-        // wp_redirect($redirect_to);
-        // exit;
+        $redirect_to = home_url('/signin');
+        wp_redirect($redirect_to);
+        
+        exit;
     } else {
         // Display error message for invalid OTP
          echo '<div class="error-msg">invalid OTP</div>';
