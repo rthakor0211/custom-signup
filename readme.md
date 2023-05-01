@@ -1,9 +1,11 @@
-- Copy and install wordpress setup.
-- I have used "WP Mail SMTP" plugin for SMTP configuration and send OTP email.
-- Need to configure SMTP setting before testing it.
-- After configure SMTP go to homepage
-	- Go to signup page for register user
-	- After submit the signup from user will recive one OTP email, subect name "Email verification OTP"
-	- Need to add OTP in verify-email-otp page
-	- After add OTP user will redirect on signIn page
-	- After successfully signIn user will redirect on company name subdomain,  eg. https://company_name.domain.com
+1. Copy and install WordPress setup.
+2. I have used the "WP Mail SMTP" plugin for SMTP configuration and sending OTP emails.
+3. Configure the SMTP setting before testing it.
+4. After configuring SMTP go to the homepage
+       => Go to the signup page to register the user
+       => After submitting the signup form user will receive one OTP email, the subject name "Email verification OTP."
+       => Need to add OTP in verify-email-OTP page
+       => After adding OTP user will redirect to the sign-in page
+       => After successfully signIn user will redirect to the company name subdomain, e.g. https://company_name.domain.com
+
+5. Video Demo URL : https://www.loom.com/share/c60c8f1784cb4166b88f478343a9db60:        
